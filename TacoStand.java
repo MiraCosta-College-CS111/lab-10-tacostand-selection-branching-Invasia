@@ -57,31 +57,36 @@ public class TacoStand
 	 */
 	public static void addTotalFunds(int funds)
 	{
-		TacoStand.totalFunds += funds;
+		TacoStand.totalFunds += funds; //should be static variable
 	}
 	
 	/**
 	 * Checks if proposed budget to order supplies can be used to buy more supplies. If within total funds,
 	 * will update total funds and increment number of each option of tacos based on budget. Otherwise,
-	 * no variables are changed.
+	 * no variables are changed. (should be else if statement)
 	 * 
 	 * @param budget funds to use to order supplies
 	 * 
 	 * @return boolean representing if supplies could be ordered (within total funds)
 	 */
-	public static boolean orderSupplies(double budget)
+	public static boolean orderSupplies(double budget) //lines 74-90 done in class by Nadia
 	{
-		//tacos cost 75 cents each in supplies, keeping it simple
-	    int tacosEach = (int)(Math.round(budget / 0.75 / 4));
+		if(budget <= totalFunds) {
+				//tacos cost 75 cents each in supplies, keeping it simple
+	    		int tacosEach = (int)(Math.round(budget / 0.75 / 4));
 
-	    TacoStand.totalFunds -= budget;
+	    		TacoStand.totalFunds -= budget;
 
-	    TacoStand.numAsada += tacosEach;
-	    TacoStand.numPollo += tacosEach;
-	    TacoStand.numLengua += tacosEach;
-	    TacoStand.numUltimate += tacosEach;
+	    		TacoStand.numAsada += tacosEach;
+	    		TacoStand.numPollo += tacosEach;
+	    		TacoStand.numLengua += tacosEach;
+	    		TacoStand.numUltimate += tacosEach;
 
-		return true;  //TODO: this is stubbed, replace this line with your actual code!
+				return true;
+
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -91,9 +96,45 @@ public class TacoStand
 	 * @param tacoOption menu option (kind of taco)
 	 * @param numTacos number of tacos as part of order, assume > 0
 	 */
-	public static void updateTotalFunds(int tacoOption, int numTacos)
-	{
-		//TODO: this is stubbed, replace this line with your actual code!
+	public static boolean updateTotalFunds(int tacoOption, int numTacos) {
+		double tacoPrice = 0.0;
+		int availableTacos = 0;
+
+		if(tacoOption == 1) {
+			tacoPrice = 2.50;
+			availableTacos = numAsada;
+		} else if (tacoOption == 2) {
+			tacoPrice = 1.75;
+			availableTacos = numPollo;
+		} else if (tacoOption == 3) {
+			tacoPrice = 3.00;
+			availableTacos = numLengua;
+		} else if (tacoOption == 4) {
+			tacoPrice = 18.00;
+			availableTacos = numUltimate;
+		} else {
+			return false;
+		}
+
+		if (numTacos > availableTacos) {
+			System.out.println("We don't have that many tacos, sorry! Try again :(");
+			return false;
+		}
+
+		double totalCost = tacoPrice * numTacos;
+		totalFunds += totalCost;
+
+		if (tacoOption == 1) {
+			numAsada -= numTacos;
+		} else if (tacoOption == 2) {
+			numPollo -= numTacos;
+		} else if (tacoOption == 3) {
+			numLengua -= numTacos;
+		} else if (tacoOption == 4) {
+			numUltimate -= numTacos;
+		}
+
+		return true;
 	}
 	
 	
@@ -105,8 +146,23 @@ public class TacoStand
 	 * 
 	 * @return boolean representing if specific kind of tacos, for the number in order, are available
 	 */
-	public static boolean areTacosAvailable(int tacoOption, int numTacos)
-	{
-		return false; //TODO: this is stubbed, replace this line with your actual code!
+	public static boolean areTacosAvailable(int tacoOption, int numTacos) {
+		int availableTacos = 0;
+
+		if (tacoOption ==1) {
+			availableTacos = numAsada;
+		} else if (tacoOption == 2) {
+			availableTacos = numPollo;
+		} else if (tacoOption == 3) {
+			availableTacos = numLengua;
+		} else if (tacoOption == 4) {
+			availableTacos = numUltimate;
+		} else {
+			return false;
+		}
+
+		return numTacos <= availableTacos;
 	}
 }
+
+

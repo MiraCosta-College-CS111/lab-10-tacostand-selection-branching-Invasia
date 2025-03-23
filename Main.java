@@ -1,7 +1,7 @@
+// PARTNER NAME: JANELLE YAMBAO
 // PARTNER NAME:
-// PARTNER NAME:
-// CS111 SECTION #:
-// DATE:
+// CS111 SECTION #: 1274
+// DATE: 3-23-2025
 
 public class Main
 {
@@ -69,7 +69,14 @@ public class Main
 		//CALCULATION + OUTPUT SECTION
 		TacoStand.updateTotalFunds(option, numTacosOrdered);
 		Main.printConfirmation(numTacosOrdered);
-	}
+
+		if (TacoStand.areTacosAvailable(option, numTacosOrdered)) {
+			TacoStand.updateTotalFunds(option, numTacosOrdered);
+			Main.printConfirmation(numTacosOrdered); 
+		} else {
+			System.out.println("We don't have that many tacos, sorry! Try again :(");
+		}
+	} 
 
 	/**
 	 * Prints confirmation message that varies based on number of tacos in order
@@ -82,3 +89,8 @@ public class Main
 		System.out.println("🌮");
 	}
 }
+
+/**
+ * We need to make changes in TacoStand.Java and in Main.Java
+ * Go to Actions to check if test passed?
+*/
