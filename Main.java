@@ -65,11 +65,6 @@ public class Main
 		TacoStand.printMenu();
 		option = UtilityBelt.readInt("Enter choice> ", 1, 4);
 		numTacosOrdered = UtilityBelt.readInt("Enter number of tacos you want> ", 1, 50);
-
-		if (option < 1 || option > 4) {
-			System.out.println("Invalid menu option! Please try again.");
-			return;
-		}
 	
 		// Prevent ordering 0 tacos
 		if (numTacosOrdered <= 0) {

@@ -72,25 +72,26 @@ public class TacoStand
 	public static boolean orderSupplies(double budget) //lines 78-90 done in class by Nadia
 	{
 		if (budget <= 0) {
-			System.out.println("Insufficient budget. Must be greater than $0.");
+			System.out.println("Invalid budget! Must be greater than $0.");
 			return false;
 		}
-		if (budget <= totalFunds) {
-				//tacos cost 75 cents each in supplies, keeping it simple
-	    		int tacosEach = (int)(Math.round(budget / 0.75 / 4));
-
-	    		TacoStand.totalFunds -= budget;
-
-	    		TacoStand.numAsada += tacosEach;
-	    		TacoStand.numPollo += tacosEach;
-	    		TacoStand.numLengua += tacosEach;
-	    		TacoStand.numUltimate += tacosEach;
-
-				return true;
-
-		} else {
+	
+		if (budget > totalFunds) {
+			System.out.println("Not enough funds to order supplies.");
 			return false;
 		}
+	
+		//Tacos cost 75 cents each in supplies
+		int tacosEach = (int)(Math.round(budget / 0.75 / 4));
+	
+		//Deduct from funds and add to inventory
+		totalFunds -= budget;
+		numAsada += tacosEach;
+		numPollo += tacosEach;
+		numLengua += tacosEach;
+		numUltimate += tacosEach;
+	
+		return true;
 	}
 
 	/**
@@ -104,6 +105,13 @@ public class TacoStand
 	{
 		double tacoPrice = 0.0;
 	
+		// Ensure there are enough tacos before processing
+		if (!areTacosAvailable(tacoOption, numTacos)) {
+			System.out.println("We don't have that many tacos, sorry! Try again :(");
+			return; // Exit if not enough tacos
+		}
+	
+		// Selecting taco price
 		switch (tacoOption) {
 			case 1:
 				tacoPrice = 2.50;
@@ -123,10 +131,10 @@ public class TacoStand
 				break;
 			default:
 				System.out.println("Invalid taco option.");
-				return; //exit early for invalid options
+				return; // EXIT EARLY IF INVALID OPTION
 		}
 	
-		//update funds based on order
+		// Update funds based on order
 		totalFunds += numTacos * tacoPrice;
 	}
 	
