@@ -135,7 +135,7 @@ public class TacoStand
 	public static boolean areTacosAvailable(int tacoOption, int numTacos) {
 		int availableTacos = getAvailableTacos(tacoOption);
 
-		if (avaavailableTacos == -1) return false; //invalid taco selection
+		if (availableTacos == -1) return false; //invalid taco selection
 		return numTacos <= availableTacos; //checks just availability
 
 	}
