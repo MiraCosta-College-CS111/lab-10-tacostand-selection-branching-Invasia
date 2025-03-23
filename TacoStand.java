@@ -113,6 +113,9 @@ public class TacoStand
 		} else if (tacoOption == 4) {
 			tacoPrice = 18.00;
 			availableTacos = numUltimate;
+		} else {
+			System.out.println("Invalid taco option. Please try again.");
+			return;
 		}
 
 		if(numTacos > availableTacos) {
@@ -143,17 +146,13 @@ public class TacoStand
 	 */
 	public static boolean areTacosAvailable(int tacoOption, int numTacos)
 	{
-		if (tacoOption == 1 && numTacos <= numAsada) {
-			return true;
-		} else if (tacoOption == 2 && numTacos <= numPollo) {
-			return true;
-		} else if (tacoOption == 3 && numTacos <= numLengua) {
-			return true;
-		} else if (tacoOption == 4 && numTacos <= numUltimate) {
-			return true;
+		switch (tacoOption) {
+			case 1: return numTacos <= numAsada;
+			case 2: return numTacos <= numPollo;
+			case 3: return numTacos <= numLengua;
+			case 4: return numTacos <= numUltimate;
+			default: return false;
 		}
-
-		return false;
 	}
 
 }
