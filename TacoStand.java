@@ -96,12 +96,12 @@ public class TacoStand
 	 * @param tacoOption menu option (kind of taco)
 	 * @param numTacos number of tacos as part of order, assume > 0
 	 */
-	public static boolean updateTotalFunds(int tacoOption, int numTacos) {
+	public static void updateTotalFunds(int tacoOption, int numTacos)
+	{
 		double tacoPrice = 0.0;
 		int availableTacos = 0;
-	
-		// Check available tacos
-		if (tacoOption == 1) {
+
+		if(tacoOption == 1) {
 			tacoPrice = 2.50;
 			availableTacos = numAsada;
 		} else if (tacoOption == 2) {
@@ -113,24 +113,24 @@ public class TacoStand
 		} else if (tacoOption == 4) {
 			tacoPrice = 18.00;
 			availableTacos = numUltimate;
-		} else {
-			return false; //invalid taco selection
 		}
-	
-		//check if enough tacos are available
-		if (numTacos > availableTacos) {
+
+		if(numTacos > availableTacos) {
 			System.out.println("We don't have that many tacos, sorry! Try again :(");
-			return false;
+			return;
 		}
-	
-		//update funds and inventory
-		totalFunds += tacoPrice * numTacos;
-		if (tacoOption == 1) numAsada -= numTacos;
-		else if (tacoOption == 2) numPollo -= numTacos;
-		else if (tacoOption == 3) numLengua -= numTacos;
-		else if (tacoOption == 4) numUltimate -= numTacos;
-	
-		return true;
+
+		if(tacoOption == 1) {
+			numAsada -= numTacos;
+		} else if (tacoOption == 2) {
+			numPollo -= numTacos;
+		} else if (tacoOption == 3) {
+			numLengua -= numTacos;
+		} else if (tacoOption == 4) {
+			numUltimate -= numTacos;
+		}
+
+		totalFunds += numTacos * tacoPrice;
 	}
 	
 	/**
@@ -141,18 +141,21 @@ public class TacoStand
 	 * 
 	 * @return boolean representing if specific kind of tacos, for the number in order, are available
 	 */
-	public static boolean areTacosAvailable(int tacoOption, int numTacos) {
-		int availableTacos = 0;
-	
-		//check available tacos only
-		if (tacoOption == 1) availableTacos = numAsada;
-		else if (tacoOption == 2) availableTacos = numPollo;
-		else if (tacoOption == 3) availableTacos = numLengua;
-		else if (tacoOption == 4) availableTacos = numUltimate;
-		else return false; //invalid taco selection
-	
-		return numTacos <= availableTacos; //return whether tacos are available
+	public static boolean areTacosAvailable(int tacoOption, int numTacos)
+	{
+		if (tacoOption == 1 && numTacos <= numAsada) {
+			return true;
+		} else if (tacoOption == 2 && numTacos <= numPollo) {
+			return true;
+		} else if (tacoOption == 3 && numTacos <= numLengua) {
+			return true;
+		} else if (tacoOption == 4 && numTacos <= numUltimate) {
+			return true;
+		}
+
+		return false;
 	}
+
 }
 
 

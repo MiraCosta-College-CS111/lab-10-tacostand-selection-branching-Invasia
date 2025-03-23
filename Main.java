@@ -66,16 +66,14 @@ public class Main
 		option = UtilityBelt.readInt("Enter choice> ", 1, 4);
 		numTacosOrdered = UtilityBelt.readInt("Enter number of tacos you want> ", 1, 50);
 
+		if (!TacoStand.areTacosAvailable(option, numTacosOrdered)) {
+			System.out.println("We don't have that many tacos, sorry! Try again :(");
+			return;
+		}
+
 		//CALCULATION + OUTPUT SECTION
 		TacoStand.updateTotalFunds(option, numTacosOrdered);
 		Main.printConfirmation(numTacosOrdered);
-
-		if (TacoStand.areTacosAvailable(option, numTacosOrdered)) {
-			TacoStand.updateTotalFunds(option, numTacosOrdered);
-			Main.printConfirmation(numTacosOrdered); 
-		} else {
-			System.out.println("We don't have that many tacos, sorry! Try again :(");
-		}
 	} 
 
 	/**
@@ -86,7 +84,10 @@ public class Main
 	public static void printConfirmation(int numTacos) //TODO: upgrade per documentation
 	{
 		System.out.println("Here you go, buen provecho!");
-		System.out.println("🌮");
+		for (int i = 0; i < numTacos; i++) {
+			System.out.println("🌮");
+		}
+		System.out.println();
 	}
 }
 
