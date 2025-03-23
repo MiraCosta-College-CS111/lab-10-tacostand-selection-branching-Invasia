@@ -98,41 +98,27 @@ public class TacoStand
 	 */
 	public static boolean updateTotalFunds(int tacoOption, int numTacos) {
 		double tacoPrice = 0.0;
-		int availableTacos = 0;
+		int availableTacos = getAvailableTacos(tacoOption);
 
-		if(tacoOption == 1) {
-			tacoPrice = 2.50;
-			availableTacos = numAsada;
-		} else if (tacoOption == 2) {
-			tacoPrice = 1.75;
-			availableTacos = numPollo;
-		} else if (tacoOption == 3) {
-			tacoPrice = 3.00;
-			availableTacos = numLengua;
-		} else if (tacoOption == 4) {
-			tacoPrice = 18.00;
-			availableTacos = numUltimate;
-		} else {
-			return false;
-		}
+		if(tacoOption == -1) return false;
 
+		if (tacotacoOption == 1) tacoPrice = 2.50;
+		else if (tacoOption == 2) tacoPrice = 1.75;
+		else if (tacoOption == 3) tacoPrice = 3.00;
+		else if (tacoOption == 4) tacoPrice = 18.00;
+
+		//To check if enough tacos match order
 		if (numTacos > availableTacos) {
 			System.out.println("We don't have that many tacos, sorry! Try again :(");
 			return false;
 		}
 
-		double totalCost = tacoPrice * numTacos;
-		totalFunds += totalCost;
-
-		if (tacoOption == 1) {
-			numAsada -= numTacos;
-		} else if (tacoOption == 2) {
-			numPollo -= numTacos;
-		} else if (tacoOption == 3) {
-			numLengua -= numTacos;
-		} else if (tacoOption == 4) {
-			numUltimate -= numTacos;
-		}
+		//Calculate total cost and update funds
+		totalFunds += tacoPrice * numTacos;
+		if (tacoOption == 1) numAsada -= numTacos;
+		else if (tacoOption == 2) numPollo -= numTacos;
+		else if (tacoOption == 3) numLengua -= numTacos;
+		else if (tacoOption == 4) numUltimate -= numTacos;
 
 		return true;
 	}
@@ -147,21 +133,32 @@ public class TacoStand
 	 * @return boolean representing if specific kind of tacos, for the number in order, are available
 	 */
 	public static boolean areTacosAvailable(int tacoOption, int numTacos) {
-		int availableTacos = 0;
+		double tacoPrice = 0.0;
+		int availableTacos = getAvailableTacos(tacoOption); 
 
-		if (tacoOption ==1) {
-			availableTacos = numAsada;
-		} else if (tacoOption == 2) {
-			availableTacos = numPollo;
-		} else if (tacoOption == 3) {
-			availableTacos = numLengua;
-		} else if (tacoOption == 4) {
-			availableTacos = numUltimate;
-		} else {
+		if (availableTacos == -1) return false; //invalid taco selection
+
+		if (tacoOption == 1) tacoPrice = 2.50;
+		else if (tacoOption == 2) tacoPrice = 1.75;
+		else if (tacoOption == 3) tacoPrice = 3.00;
+		else if (tacoOption == 4) tacoPrice = 18.00;
+
+		if (numTacos > availableTacos) {
+			System.out.println("We don't have that many tacos, sorry! Try again :(");
 			return false;
 		}
 
-		return numTacos <= availableTacos;
+		double totalCost = tacoPrice * numTacos;
+		totalFunds += totalCost; //earn funds from order
+
+		//deduct tacos
+		if (tacoOption == 1) numAsada -= numTacos;
+		else if (tacoOption == 2) numPollo -= numTacos;
+		else if (tacoOption == 3) numLengua -= numTacos;
+		else if (tacoOption == 4) numUltimate -= numTacos;
+
+		return true;
+
 	}
 }
 
