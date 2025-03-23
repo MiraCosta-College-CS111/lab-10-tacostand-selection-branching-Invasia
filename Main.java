@@ -95,9 +95,11 @@ public class Main
 	public static void printConfirmation(int numTacos) //TODO: upgrade per documentation
 	{
 		System.out.println("Here you go, buen provecho!");
+
 		for (int i = 0; i < numTacos; i++) {
 			System.out.print("🌮");
 		}
+		
 		System.out.println();
 	}
 }

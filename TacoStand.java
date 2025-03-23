@@ -69,7 +69,7 @@ public class TacoStand
 	 * 
 	 * @return boolean representing if supplies could be ordered (within total funds)
 	 */
-	public static boolean orderSupplies(double budget) //lines 74-90 done in class by Nadia
+	public static boolean orderSupplies(double budget) //lines 78-90 done in class by Nadia
 	{
 		if (budget <= 0) {
 			System.out.println("Insufficient budget. Must be greater than $0.");
@@ -103,40 +103,30 @@ public class TacoStand
 	public static void updateTotalFunds(int tacoOption, int numTacos)
 	{
 		double tacoPrice = 0.0;
-		int availableTacos = 0;
-
-		if(tacoOption == 1) {
-			tacoPrice = 2.50;
-			availableTacos = numAsada;
-		} else if (tacoOption == 2) {
-			tacoPrice = 1.75;
-			availableTacos = numPollo;
-		} else if (tacoOption == 3) {
-			tacoPrice = 3.00;
-			availableTacos = numLengua;
-		} else if (tacoOption == 4) {
-			tacoPrice = 18.00;
-			availableTacos = numUltimate;
-		} else {
-			System.out.println("Invalid taco option. Please try again.");
-			return;
+	
+		switch (tacoOption) {
+			case 1:
+				tacoPrice = 2.50;
+				numAsada -= numTacos;
+				break;
+			case 2:
+				tacoPrice = 1.75;
+				numPollo -= numTacos;
+				break;
+			case 3:
+				tacoPrice = 3.00;
+				numLengua -= numTacos;
+				break;
+			case 4:
+				tacoPrice = 18.00;
+				numUltimate -= numTacos;
+				break;
+			default:
+				System.out.println("Invalid taco option.");
+				return; //exit early for invalid options
 		}
-
-		if(numTacos > availableTacos) {
-			System.out.println("We don't have that many tacos, sorry! Try again :(");
-			return;
-		}
-
-		if(tacoOption == 1) {
-			numAsada -= numTacos;
-		} else if (tacoOption == 2) {
-			numPollo -= numTacos;
-		} else if (tacoOption == 3) {
-			numLengua -= numTacos;
-		} else if (tacoOption == 4) {
-			numUltimate -= numTacos;
-		}
-
+	
+		//update funds based on order
 		totalFunds += numTacos * tacoPrice;
 	}
 	
