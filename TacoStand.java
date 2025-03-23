@@ -71,6 +71,10 @@ public class TacoStand
 	 */
 	public static boolean orderSupplies(double budget) //lines 74-90 done in class by Nadia
 	{
+		if (budget <= 0) {
+			System.out.println("Insufficient budget. Must be greater than $0.");
+			return false;
+		}
 		if (budget <= totalFunds) {
 				//tacos cost 75 cents each in supplies, keeping it simple
 	    		int tacosEach = (int)(Math.round(budget / 0.75 / 4));

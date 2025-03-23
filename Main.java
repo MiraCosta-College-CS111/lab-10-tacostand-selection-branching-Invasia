@@ -66,6 +66,17 @@ public class Main
 		option = UtilityBelt.readInt("Enter choice> ", 1, 4);
 		numTacosOrdered = UtilityBelt.readInt("Enter number of tacos you want> ", 1, 50);
 
+		if (option < 1 || option > 4) {
+			System.out.println("Invalid menu option! Please try again.");
+			return;
+		}
+	
+		// Prevent ordering 0 tacos
+		if (numTacosOrdered <= 0) {
+			System.out.println("Please order at least 1 taco.");
+			return;
+		}
+
 		if (!TacoStand.areTacosAvailable(option, numTacosOrdered)) {
 			System.out.println("We don't have that many tacos, sorry! Try again :(");
 			return;
@@ -85,7 +96,7 @@ public class Main
 	{
 		System.out.println("Here you go, buen provecho!");
 		for (int i = 0; i < numTacos; i++) {
-			System.out.println("🌮");
+			System.out.print("🌮");
 		}
 		System.out.println();
 	}
