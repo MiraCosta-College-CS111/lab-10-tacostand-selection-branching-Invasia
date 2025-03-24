@@ -1,7 +1,7 @@
-// PARTNER NAME: JANELLE YAMBAO
 // PARTNER NAME:
-// CS111 SECTION #: 1274
-// DATE: 3-23-2025
+// PARTNER NAME:
+// CS111 SECTION #:
+// DATE:
 
 public class Main
 {
@@ -21,9 +21,9 @@ public class Main
 		TacoStand.initialize();
 
 		//INPUT + CALCULATION + OUTPUT SECTION
-		TacoStand.addTotalFunds(20);
+		TacoStand.addTotalFunds(20); 
 		TacoStand.orderSupplies(15);
-
+	
 		System.out.println("OPENING UP THE STAND...");
 		System.out.println( TacoStand.getStatus() +"\n\n");
 
@@ -33,7 +33,11 @@ public class Main
 		Main.takeOrder();
 		//call takeOrder more times if you'd like! (once everything works once though!)
 
-		System.out.println("--------CART IS CLOSED---------\n\n" + TacoStand.getStatus());
+		System.out.println("--------CART IS CLOSED---------");
+		System.out.println(); // Ensure exactly one blank line before Taco Stand status
+		System.out.println(TacoStand.getStatus());
+
+		
 	}
 
 	/**
@@ -65,41 +69,35 @@ public class Main
 		TacoStand.printMenu();
 		option = UtilityBelt.readInt("Enter choice> ", 1, 4);
 		numTacosOrdered = UtilityBelt.readInt("Enter number of tacos you want> ", 1, 50);
-	
-		// Prevent ordering 0 tacos
-		if (numTacosOrdered <= 0) {
-			System.out.println("Please order at least 1 taco.");
-			return;
-		}
-
+		
+		// Check if tacos are available
 		if (!TacoStand.areTacosAvailable(option, numTacosOrdered)) {
 			System.out.println("We don't have that many tacos, sorry! Try again :(");
-			return;
+			return; // Exit method early if order can't be fulfilled
 		}
 
 		//CALCULATION + OUTPUT SECTION
 		TacoStand.updateTotalFunds(option, numTacosOrdered);
 		Main.printConfirmation(numTacosOrdered);
-	} 
+	}
 
 	/**
 	 * Prints confirmation message that varies based on number of tacos in order
 	 * 
 	 * @param numTacos
 	 */
-	public static void printConfirmation(int numTacos) //TODO: upgrade per documentation
+	public static void printConfirmation(int numTacos) 
 	{
 		System.out.println("Here you go, buen provecho!");
-
+		System.out.println(); // **Ensure there's a blank line before printing tacos**
+		
 		for (int i = 0; i < numTacos; i++) {
 			System.out.print("🌮");
 		}
 		
-		System.out.println();
+		System.out.println(); // Ensure tacos are printed correctly on their own line
 	}
+	
+	
+	
 }
-
-/**
- * We need to make changes in TacoStand.Java and in Main.Java
- * Go to Actions to check if test passed?
-*/

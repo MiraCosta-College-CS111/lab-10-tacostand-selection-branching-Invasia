@@ -57,41 +57,34 @@ public class TacoStand
 	 */
 	public static void addTotalFunds(int funds)
 	{
-		TacoStand.totalFunds += funds; //should be static variable
+		TacoStand.totalFunds += funds;
 	}
 	
 	/**
 	 * Checks if proposed budget to order supplies can be used to buy more supplies. If within total funds,
 	 * will update total funds and increment number of each option of tacos based on budget. Otherwise,
-	 * no variables are changed. (should be else if statement)
+	 * no variables are changed.
 	 * 
 	 * @param budget funds to use to order supplies
 	 * 
 	 * @return boolean representing if supplies could be ordered (within total funds)
 	 */
-	public static boolean orderSupplies(double budget) //lines 78-90 done in class by Nadia
+	public static boolean orderSupplies(double budget)
 	{
-		if (budget <= 0) {
-			System.out.println("Invalid budget! Must be greater than $0.");
-			return false;
+		if(budget <= totalFunds) {
+			//tacos cost 75 cents each in supplies, keeping it simple
+			int tacosEach = (int)(Math.round(budget / 0.75 / 4));
+			
+			TacoStand.totalFunds -= budget;
+			TacoStand.numAsada += tacosEach;
+			TacoStand.numPollo += tacosEach;
+			TacoStand.numLengua += tacosEach;
+			TacoStand.numUltimate += tacosEach;
+			
+			return true;
+		} else {
+			return false; //public static method orderSupplies was done and shown by instructor
 		}
-	
-		if (budget > totalFunds) {
-			System.out.println("Not enough funds to order supplies.");
-			return false;
-		}
-	
-		//Tacos cost 75 cents each in supplies
-		int tacosEach = (int)(Math.round(budget / 0.75 / 4));
-	
-		//Deduct from funds and add to inventory
-		totalFunds -= budget;
-		numAsada += tacosEach;
-		numPollo += tacosEach;
-		numLengua += tacosEach;
-		numUltimate += tacosEach;
-	
-		return true;
 	}
 
 	/**
@@ -104,39 +97,46 @@ public class TacoStand
 	public static void updateTotalFunds(int tacoOption, int numTacos)
 	{
 		double tacoPrice = 0.0;
+		int availableTacos = 0;
 	
-		// Ensure there are enough tacos before processing
-		if (!areTacosAvailable(tacoOption, numTacos)) {
+		// Determine taco price and available stock
+		if(tacoOption == 1) {
+			tacoPrice = 2.50;
+			availableTacos = numAsada;
+		} else if (tacoOption == 2) {
+			tacoPrice = 1.75;
+			availableTacos = numPollo;
+		} else if (tacoOption == 3) {
+			tacoPrice = 3.00;
+			availableTacos = numLengua;
+		} else if (tacoOption == 4) {
+			tacoPrice = 18.00;
+			availableTacos = numUltimate;
+		}
+	
+		// Check if enough tacos are available
+		if(numTacos > availableTacos) {
 			System.out.println("We don't have that many tacos, sorry! Try again :(");
-			return; // Exit if not enough tacos
+			System.out.println();
+			
+			return; // Exit early if order cannot be fulfilled
 		}
 	
-		// Selecting taco price
-		switch (tacoOption) {
-			case 1:
-				tacoPrice = 2.50;
-				numAsada -= numTacos;
-				break;
-			case 2:
-				tacoPrice = 1.75;
-				numPollo -= numTacos;
-				break;
-			case 3:
-				tacoPrice = 3.00;
-				numLengua -= numTacos;
-				break;
-			case 4:
-				tacoPrice = 18.00;
-				numUltimate -= numTacos;
-				break;
-			default:
-				System.out.println("Invalid taco option.");
-				return; // EXIT EARLY IF INVALID OPTION
-		}
-	
-		// Update funds based on order
+		// Process the order: reduce taco count and increase funds
 		totalFunds += numTacos * tacoPrice;
+	
+		if(tacoOption == 1) {
+			numAsada -= numTacos;
+		} else if (tacoOption == 2) {
+			numPollo -= numTacos;
+		} else if (tacoOption == 3) {
+			numLengua -= numTacos;
+		} else if (tacoOption == 4) {
+			numUltimate -= numTacos;
+		}
+	
 	}
+	
 	
 	/**
 	 * Determines if taco order can be fullfilled (number of tacos for specific kinda are available)
@@ -148,15 +148,22 @@ public class TacoStand
 	 */
 	public static boolean areTacosAvailable(int tacoOption, int numTacos)
 	{
-		switch (tacoOption) {
-			case 1: return numTacos <= numAsada;
-			case 2: return numTacos <= numPollo;
-			case 3: return numTacos <= numLengua;
-			case 4: return numTacos <= numUltimate;
-			default: return false;
+		int availableTacos = 0;
+	
+		// Determine available stock for the requested taco type
+		if (tacoOption == 1) {
+			availableTacos = numAsada;
+		} else if (tacoOption == 2) {
+			availableTacos = numPollo;
+		} else if (tacoOption == 3) {
+			availableTacos = numLengua;
+		} else if (tacoOption == 4) {
+			availableTacos = numUltimate;
+		} else {
+			return false; // Invalid taco option
 		}
+	
+		// Return true if enough tacos are available, otherwise false
+		return numTacos <= availableTacos;
 	}
-
 }
-
-
