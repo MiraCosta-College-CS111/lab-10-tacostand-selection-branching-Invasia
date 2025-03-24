@@ -2,6 +2,12 @@ public class TacoStand
 {
     /* CONSTANT VARIABLES */
 	public static final String BAR = "----------------------------------------";
+	public static final double CARNE_ASADA_PRICE = 2.50;
+	public static final double POLLO_ASADO_PRICE = 1.75;
+	public static final double LENGUA_PRICE = 3.00;
+	public static final double ULTIMATE_TACO_PRICE = 18.00;
+	public static final double SUPPLY_COST_PER_TACO = 0.75;
+	
 
 	/* STATIC VARIABLES */
 	private static int numAsada = 0, numPollo = 0, numLengua = 0, numUltimate = 0;
@@ -22,12 +28,13 @@ public class TacoStand
 	public static void printMenu()
 	{
 		System.out.println("Menu options:\n" + TacoStand.BAR);
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 1, "Carne Asada (Steak)", 2.5);
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 2, "Pollo Asado (Chicken)", 1.75);
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 3, "Lengua (Beef Tongue)", 3.0);
-		System.out.printf("%2d. %-21s [$%5.2f]%n", 4, "Ultimate Taco", 18.0);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 1, "Carne Asada (Steak)", CARNE_ASADA_PRICE);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 2, "Pollo Asado (Chicken)", POLLO_ASADO_PRICE);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 3, "Lengua (Beef Tongue)", LENGUA_PRICE);
+		System.out.printf("%2d. %-21s [$%5.2f]%n", 4, "Ultimate Taco", ULTIMATE_TACO_PRICE);
 		System.out.println(TacoStand.BAR);
 	}
+	
 	
 	/**
 	* Returns a summary (all static variables) of the CURRENT status of the taco stand
@@ -71,21 +78,22 @@ public class TacoStand
 	 */
 	public static boolean orderSupplies(double budget)
 	{
-		if(budget <= totalFunds) {
-			//tacos cost 75 cents each in supplies, keeping it simple
-			int tacosEach = (int)(Math.round(budget / 0.75 / 4));
-			
+		if(budget <= totalFunds){
+			// tacos cost 75 cents each in supplies
+			int tacosEach = (int)(Math.round(budget / SUPPLY_COST_PER_TACO / 4));
 			TacoStand.totalFunds -= budget;
 			TacoStand.numAsada += tacosEach;
 			TacoStand.numPollo += tacosEach;
 			TacoStand.numLengua += tacosEach;
 			TacoStand.numUltimate += tacosEach;
-			
 			return true;
-		} else {
-			return false; //public static method orderSupplies was done and shown by instructor
+		}
+		else {
+			System.out.println("Not enough funds to order supplies.");
+			return false;
 		}
 	}
+	
 
 	/**
 	 * Adds funds to total (static variable) based on kind of taco (different prices) and number of tacos
@@ -96,46 +104,38 @@ public class TacoStand
 	 */
 	public static void updateTotalFunds(int tacoOption, int numTacos)
 	{
-		double tacoPrice = 0.0;
-		int availableTacos = 0;
-	
-		// Determine taco price and available stock
-		if(tacoOption == 1) {
-			tacoPrice = 2.50;
-			availableTacos = numAsada;
-		} else if (tacoOption == 2) {
-			tacoPrice = 1.75;
-			availableTacos = numPollo;
-		} else if (tacoOption == 3) {
-			tacoPrice = 3.00;
-			availableTacos = numLengua;
-		} else if (tacoOption == 4) {
-			tacoPrice = 18.00;
-			availableTacos = numUltimate;
-		}
-	
-		// Check if enough tacos are available
-		if(numTacos > availableTacos) {
+		if (!areTacosAvailable(tacoOption, numTacos)) {
 			System.out.println("We don't have that many tacos, sorry! Try again :(");
-			System.out.println();
-			
-			return; // Exit early if order cannot be fulfilled
+			return;
 		}
 	
-		// Process the order: reduce taco count and increase funds
-		totalFunds += numTacos * tacoPrice;
-	
-		if(tacoOption == 1) {
-			numAsada -= numTacos;
-		} else if (tacoOption == 2) {
-			numPollo -= numTacos;
-		} else if (tacoOption == 3) {
-			numLengua -= numTacos;
-		} else if (tacoOption == 4) {
-			numUltimate -= numTacos;
+		double tacoPrice = 0;
+		switch(tacoOption) {
+			case 1: // Carne Asada
+				tacoPrice = CARNE_ASADA_PRICE;
+				numAsada -= numTacos; // Update inventory
+				break;
+			case 2: // Pollo Asado
+				tacoPrice = POLLO_ASADO_PRICE;
+				numPollo -= numTacos; // Update inventory
+				break;
+			case 3: // Lengua
+				tacoPrice = LENGUA_PRICE;
+				numLengua -= numTacos; // Update inventory
+				break;
+			case 4: // Ultimate Taco
+				tacoPrice = ULTIMATE_TACO_PRICE;
+				numUltimate -= numTacos; // Update inventory
+				break;
+			default:
+				System.out.println("Invalid taco choice, sorry!");
+				return;
 		}
 	
+		totalFunds += tacoPrice * numTacos; // Update total funds
+		System.out.println("Order completed, thank you! Total funds are updated.");
 	}
+	
 	
 	
 	/**
@@ -148,22 +148,18 @@ public class TacoStand
 	 */
 	public static boolean areTacosAvailable(int tacoOption, int numTacos)
 	{
-		int availableTacos = 0;
-	
-		// Determine available stock for the requested taco type
-		if (tacoOption == 1) {
-			availableTacos = numAsada;
-		} else if (tacoOption == 2) {
-			availableTacos = numPollo;
-		} else if (tacoOption == 3) {
-			availableTacos = numLengua;
-		} else if (tacoOption == 4) {
-			availableTacos = numUltimate;
-		} else {
-			return false; // Invalid taco option
+		switch(tacoOption) {
+			case 1: // Carne Asada
+				return numAsada >= numTacos;
+			case 2: // Pollo Asado
+				return numPollo >= numTacos;
+			case 3: // Lengua
+				return numLengua >= numTacos;
+			case 4: // Ultimate Taco
+				return numUltimate >= numTacos;
+			default:
+				return false;
 		}
-	
-		// Return true if enough tacos are available, otherwise false
-		return numTacos <= availableTacos;
 	}
+	
 }
