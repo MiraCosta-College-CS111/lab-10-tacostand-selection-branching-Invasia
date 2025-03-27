@@ -56,38 +56,51 @@ public class Main
 	 * Prints menu and prompts user for input for kind of taco and number in order. If tacos are available,
 	 * will update total funds and confirm order with user, otherwise error message given
 	 */
-    public static void takeOrder()
-    {
-        //DECLARATION + INITIALIZATION SECTION
-        int option, numTacosOrdered;
-    
-        //INPUT SECTION
-        TacoStand.printMenu();
-        option = UtilityBelt.readInt("Enter choice> ", 1, 4);
-        numTacosOrdered = UtilityBelt.readInt("Enter number of tacos you want> ", 1, 50);
-    
-        //CALCULATION + OUTPUT SECTION
-        if (!TacoStand.areTacosAvailable(option, numTacosOrdered)) {
-            System.out.println("We don't have that many tacos, sorry! Try again :(");
-            return;
-        }
-        TacoStand.updateTotalFunds(option, numTacosOrdered);
-        Main.printConfirmation(numTacosOrdered);
-    }
-    
+	public static void takeOrder() //TODO: upgrade per documentation
+	{
+		//DECLARATION + INITIALIZATION SECTION
+		int option, numTacosOrdered;
+
+		//INPUT SECTION
+		TacoStand.printMenu();
+		option = UtilityBelt.readInt("Enter choice> ", 1, 4);
+		numTacosOrdered = UtilityBelt.readInt("Enter number of tacos you want> ", 1, 50);
+
+		//CALCULATION + OUTPUT SECTION
+		if(TacoStand.areTacosAvailable(option, numTacosOrdered))
+		{
+			TacoStand.updateTotalFunds(option, numTacosOrdered);
+			Main.printConfirmation(numTacosOrdered);
+		}
+		else
+		{
+			System.out.println("Sorry! We don't have that many tacos, please rerun program and try again! ");
+		}
+	}
 
 	/**
-	 * Prints confirmation message that varies based on number of tacos in order
+	 * Prints confirmation message that varies based on number of tacos in order (low = 1-2, medium 3-5, large 6+)
 	 * 
 	 * @param numTacos
 	 */
-    public static void printConfirmation(int numTacos)
-    {
-        System.out.println("Here you go, buen provecho!");
-        for (int i = 0; i < numTacos; i++) {
-            System.out.print("🌮");
-        }
-        System.out.println(); // Add newline after all taco emojis
-    }
-    
+	public static void printConfirmation(int numTacos) //TODO: upgrade per documentation
+	{
+		if(numTacos >= 1 && numTacos <= 2) //small order 
+		{
+			System.out.println("That's a small order, but that's alright!");
+		}
+		else 
+		{
+			if(numTacos >= 3 && numTacos <= 5) //medium order
+			{
+				System.out.println("Good order!");
+			}
+			else //large order
+			{
+				System.out.println("Wow! That's a big order!");
+			}
+		}
+		System.out.println("Here you go, buen provecho!");
+		System.out.println("🌮");
+	}
 }
