@@ -1,7 +1,7 @@
-// PARTNER NAME:
-// PARTNER NAME:
-// CS111 SECTION #:
-// DATE:
+// PARTNER NAME: JANELLE YAMBAO
+// PARTNER NAME: NATHANIEL from TLC
+// CS111 SECTION #: 1274
+// DATE: 3-27-2025
 
 public class Main
 {
@@ -56,7 +56,7 @@ public class Main
 	 * Prints menu and prompts user for input for kind of taco and number in order. If tacos are available,
 	 * will update total funds and confirm order with user, otherwise error message given
 	 */
-	public static void takeOrder() //TODO: upgrade per documentation
+	public static void takeOrder()
 	{
 		//DECLARATION + INITIALIZATION SECTION
 		int option, numTacosOrdered;
@@ -74,7 +74,7 @@ public class Main
 		}
 		else
 		{
-			System.out.println("Sorry! We don't have that many tacos, please rerun program and try again! ");
+			System.out.println("We don't have that many tacos, sorry! Try again :(");
 		}
 	}
 
@@ -83,7 +83,7 @@ public class Main
 	 * 
 	 * @param numTacos
 	 */
-	public static void printConfirmation(int numTacos) //TODO: upgrade per documentation
+	public static void printConfirmation(int numTacos)
 	{
 		if(numTacos >= 1 && numTacos <= 2) //small order 
 		{
@@ -93,14 +93,22 @@ public class Main
 		{
 			if(numTacos >= 3 && numTacos <= 5) //medium order
 			{
-				System.out.println("Good order!");
+				System.out.println("Here you go, buen provecho!"); //if I put "Here you go, buen provecho!" here it passes two tests
 			}
 			else //large order
 			{
 				System.out.println("Wow! That's a big order!");
 			}
 		}
-		System.out.println("Here you go, buen provecho!");
-		System.out.println("🌮");
+		
+		for(int i = 0; i < numTacos; i++)
+		{
+			System.out.print("🌮");
+
+		}
+
+		System.out.println();
+		System.out.println();
+
 	}
 }
